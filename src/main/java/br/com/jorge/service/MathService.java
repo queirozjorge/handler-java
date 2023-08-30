@@ -5,7 +5,9 @@ import java.util.Objects;
 import org.springframework.stereotype.Service;
 
 import br.com.jorge.exceptions.UnsupportedMathOperationException;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 public class MathService {
 
@@ -26,7 +28,7 @@ public class MathService {
 		if(n2ForDivide.equals(0D)) {
 			throw new UnsupportedMathOperationException("Cannot divide a number by zero!");
 		}
-		return validateAndConvertToDouble(n1) / validateAndConvertToDouble(n2);
+		return validateAndConvertToDouble(n1) / n2ForDivide;
 	}
 	
 	public Double average(String n1, String n2) {
@@ -42,8 +44,10 @@ public class MathService {
 			return 0D;
 		String number = strNumber.replaceAll(",", ".");
 		if(number.matches("[+-]?[0-9]*\\.?[0-9]+")) {
+			log.info("The String: {} has been successfully validated", strNumber);
 			return Double.valueOf(number);
 		} else {
+			log.info("The String: {} has not been validated", strNumber);
 			throw new UnsupportedMathOperationException("Please, set a numeric value!");
 		}
 	}
