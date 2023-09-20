@@ -1,5 +1,6 @@
 HELP.md
 target/
+/target/**
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
@@ -31,3 +32,30 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Diretório "shared/" ###
+# shared/db/**
+# !shared/db/.gitkeep
+# !shared/db/sgcbdb-pre-config.sql
+# shared/ldap/**
+# !shared/ldap/.gitkeep
+# !shared/ldap/sgcb-mock.ldif
+# shared/elk/**
+# !shared/elk/.gitkeep
+# shared/container/**
+# !shared/container/.gitkeep
+# !shared/container/executar.sh
+# !shared/container/commands.cli
+# shared/container/environments/**
+# !shared/container/environments/.gitkeep
+# !shared/container/environments/commands-local.cli
+# !shared/container/environments/commands-dev.cli
+# !shared/container/environments/commands-hml.cli
+# !shared/container/environments/commands-prd.cli
+# shared/container/jdbc/**
+# !shared/container/jdbc/.gitkeep
+# !shared/container/jdbc/ojdbc8-19.3.0.0.jar
+
+### Diretório "logs/" ###
+logs/**
+/bin

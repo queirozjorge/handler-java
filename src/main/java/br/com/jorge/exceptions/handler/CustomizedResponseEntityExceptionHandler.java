@@ -1,9 +1,13 @@
 package br.com.jorge.exceptions.handler;
 
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,5 +44,22 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 		
 		return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
 	}
+	
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+    public final ResponseEntity<ExceptionResponse> handleArgumentNotValidException(MethodArgumentNotValidException ex, WebRequest request) {
+        
+        List<String> listaErros = ex.getBindingResult()
+                .getFieldErrors()
+                .stream()
+                .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                .collect(Collectors.toList());
+        
+        ExceptionResponse exceptionResponse = new ExceptionResponse(
+                new Date(), 
+                listaErros.stream().reduce("", (stringFinal, str) -> str.concat(". ").concat(stringFinal)), 
+                request.getDescription(false));
+        
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
+    }
 	
 }
